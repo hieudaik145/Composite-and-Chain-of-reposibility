@@ -1,5 +1,6 @@
 package test.rule;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import test.component.ComponentRules;
 import test.result.CompositeResults;
 import test.validatefor.FieldCheckValidate;
 import test.validatefor.RowCheckValidate;
+import test.validation.leaf.NullCheckValidator;
 
 public class CompositeRules implements ComponentRules {
 
@@ -23,32 +25,36 @@ public class CompositeRules implements ComponentRules {
 	}
 
 	@Override
-	public ComponentResults validateFieldCheck(FieldCheckValidate fieldCheckValidate, RowCheckValidate rowCheckValidate) {
+	public ComponentResults validateFieldCheck(FieldCheckValidate fieldCheckValidate,
+			RowCheckValidate rowCheckValidate) {
 		CompositeResults result = new CompositeResults();
 
 		setRules(fieldCheckValidate.getListRuleCheck());
 
-		
+		if (!canCheck(fieldCheckValidate)) {
+			setRules(Arrays.asList(new NullCheckValidator()));
+		}
+
 		for (ComponentRules rule : rules) {
+			if (rule.canCheck(fieldCheckValidate)) {
+				ComponentResults componentresult = rule.validateFieldCheck(fieldCheckValidate, rowCheckValidate);
 
-			ComponentResults componentresult = rule.validateFieldCheck(fieldCheckValidate, rowCheckValidate);
-
-			if (!componentresult.isOk()) {
-				result.add(componentresult);
+				if (!componentresult.isOk()) {
+					result.add(componentresult);
+				}
 			}
 		}
-		
+
 		return result;
 	}
 
-	@Override
 	public void validateRow(RowCheckValidate rowCheckValidate, CoreObject object) {
 
 		CompositeResults resultRow = new CompositeResults();
 
 		for (FieldCheckValidate fieldValidate : rowCheckValidate.getListFieldCheck()) {
 
-			ComponentResults result = validateFieldCheck(fieldValidate,rowCheckValidate);
+			ComponentResults result = validateFieldCheck(fieldValidate, rowCheckValidate);
 			if (!result.isOk()) {
 				resultRow.add(result);
 			}
@@ -62,7 +68,6 @@ public class CompositeRules implements ComponentRules {
 
 	}
 
-	@Override
 	public void validateListRow(Map<CoreObject, RowCheckValidate> maps) {
 
 		for (CoreObject object : maps.keySet()) {
@@ -70,5 +75,14 @@ public class CompositeRules implements ComponentRules {
 		}
 	}
 
+	@Override
+	public boolean canCheck(FieldCheckValidate fieldCheckValidate) {
+
+		if (fieldCheckValidate.getValue() != null) {
+			return true;
+		}
+
+		return false;
+	}
 
 }

@@ -1,8 +1,5 @@
 package test.validation.leaf;
 
-import java.util.Map;
-
-import test.common.CoreObject;
 import test.component.ComponentResults;
 import test.component.ComponentRules;
 import test.result.SimpleResult;
@@ -14,12 +11,8 @@ public class SoLuongCanBoValidator implements ComponentRules{
 	public final String message = "Số lượng cán bộ của trung tâm văn hóa phải >= 50 người";
 	
 	private boolean isValidSoLuongCanBo(String soLuong) {
-		int slcb = 0;
-		try {
-			slcb = Integer.parseInt(soLuong);
-		}catch (Exception e) {
-			return false;
-		}
+		
+		int	slcb = Integer.parseInt(soLuong);
 		return slcb >= 50;
 	}
 
@@ -39,16 +32,13 @@ public class SoLuongCanBoValidator implements ComponentRules{
 	}
 
 	@Override
-	public void validateRow(RowCheckValidate rowCheckValidate, CoreObject object) {
-		// TODO Auto-generated method stub
-		
+	public boolean canCheck(FieldCheckValidate fieldCheckValidate) {
+		try {
+			Integer.parseInt(fieldCheckValidate.getValue());
+			return true;
+		}catch (Exception e) {
+			return false;
+		}
 	}
 
-	@Override
-	public void validateListRow(Map<CoreObject, RowCheckValidate> maps) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
 }

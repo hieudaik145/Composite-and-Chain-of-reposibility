@@ -7,7 +7,6 @@ import java.util.Map;
 
 import test.common.CoreObject;
 import test.common.Support;
-import test.component.ComponentRules;
 import test.entity.TheCoffeHouse;
 import test.entity.TrungTamVanHoa;
 import test.rule.CompositeRules;
@@ -25,7 +24,7 @@ public class Main {
 		
 		TrungTamVanHoaService ttvhService = new TrungTamVanHoaService();
 
-		ComponentRules rules = new CompositeRules();
+		CompositeRules rules = new CompositeRules();
 
 		List<TheCoffeHouse> list = service.getTheCoffeHouseLst();
 		

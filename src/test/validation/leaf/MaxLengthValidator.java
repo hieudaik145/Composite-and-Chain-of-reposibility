@@ -6,25 +6,36 @@ import test.result.SimpleResult;
 import test.validatefor.FieldCheckValidate;
 import test.validatefor.RowCheckValidate;
 
-public class MinLengthValidator implements ComponentRules {
+public class MaxLengthValidator implements ComponentRules {
 
-	private final String message = "Min lenght value must be >=8";
+	private long maxLength;
 
-	private boolean isMinLenghtValidator(String value) {
-		if (value.length() < 8) {
-			return false;
+	private String message = "Độ dài phải >= " + this.maxLength;
+
+	public MaxLengthValidator(long maxLength) {
+		super();
+		this.maxLength = maxLength;
+	}
+
+	private boolean isValidateMaxLenght(String value) {
+
+		if (value.length() <= this.maxLength) {
+			return true;
 		}
-		return true;
+
+		return false;
+
 	}
 
 	@Override
-	public ComponentResults validateFieldCheck(FieldCheckValidate fieldCheckValidate, RowCheckValidate rowCheckValidate) {
+	public ComponentResults validateFieldCheck(FieldCheckValidate fieldCheckValidate,
+			RowCheckValidate rowCheckValidate) {
 		SimpleResult simpleResult = new SimpleResult();
-		
+
 		simpleResult.setId(rowCheckValidate.getId());
 		simpleResult.setTable(rowCheckValidate.getTable());
 		simpleResult.setFieldCheckValidate(fieldCheckValidate);
-		simpleResult.setOk(isMinLenghtValidator(fieldCheckValidate.getValue()));
+		simpleResult.setOk(isValidateMaxLenght(fieldCheckValidate.getValue()));
 		simpleResult.setMessage(message);
 
 		return simpleResult;

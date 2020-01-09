@@ -6,25 +6,19 @@ import test.result.SimpleResult;
 import test.validatefor.FieldCheckValidate;
 import test.validatefor.RowCheckValidate;
 
-public class MinLengthValidator implements ComponentRules {
+public class NullCheckValidator implements ComponentRules {
 
-	private final String message = "Min lenght value must be >=8";
-
-	private boolean isMinLenghtValidator(String value) {
-		if (value.length() < 8) {
-			return false;
-		}
-		return true;
-	}
-
+	private final String message = "Value check is null";
+	
 	@Override
-	public ComponentResults validateFieldCheck(FieldCheckValidate fieldCheckValidate, RowCheckValidate rowCheckValidate) {
+	public ComponentResults validateFieldCheck(FieldCheckValidate fieldCheckValidate,
+			RowCheckValidate rowCheckValidate) {
 		SimpleResult simpleResult = new SimpleResult();
-		
+
 		simpleResult.setId(rowCheckValidate.getId());
 		simpleResult.setTable(rowCheckValidate.getTable());
 		simpleResult.setFieldCheckValidate(fieldCheckValidate);
-		simpleResult.setOk(isMinLenghtValidator(fieldCheckValidate.getValue()));
+		simpleResult.setOk(canCheck(fieldCheckValidate));
 		simpleResult.setMessage(message);
 
 		return simpleResult;
@@ -32,8 +26,12 @@ public class MinLengthValidator implements ComponentRules {
 
 	@Override
 	public boolean canCheck(FieldCheckValidate fieldCheckValidate) {
-		// TODO Auto-generated method stub
-		return true;
+		
+		if(fieldCheckValidate.getValue() != null) {
+			return true;
+		}
+		
+		return false;
 	}
 
 }

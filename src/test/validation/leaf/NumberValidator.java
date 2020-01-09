@@ -6,33 +6,41 @@ import test.result.SimpleResult;
 import test.validatefor.FieldCheckValidate;
 import test.validatefor.RowCheckValidate;
 
-public class MinLengthValidator implements ComponentRules {
+public class NumberValidator implements ComponentRules {
+	
+	private final String message = "String must be number";
 
-	private final String message = "Min lenght value must be >=8";
+	private boolean isValidateNumberic(String value) {
 
-	private boolean isMinLenghtValidator(String value) {
-		if (value.length() < 8) {
-			return false;
-		}
-		return true;
+		String pattern = ".*([0-9])";
+
+		return value.matches(pattern);
+
 	}
 
 	@Override
-	public ComponentResults validateFieldCheck(FieldCheckValidate fieldCheckValidate, RowCheckValidate rowCheckValidate) {
+	public ComponentResults validateFieldCheck(FieldCheckValidate fieldCheckValidate,
+			RowCheckValidate rowCheckValidate) {
+
 		SimpleResult simpleResult = new SimpleResult();
-		
+
 		simpleResult.setId(rowCheckValidate.getId());
 		simpleResult.setTable(rowCheckValidate.getTable());
 		simpleResult.setFieldCheckValidate(fieldCheckValidate);
-		simpleResult.setOk(isMinLenghtValidator(fieldCheckValidate.getValue()));
 		simpleResult.setMessage(message);
-
+		simpleResult.setOk(isValidateNumberic(fieldCheckValidate.getValue()));
+		
 		return simpleResult;
+	}
+	
+	public static void main(String[] args) {
+		NumberValidator check = new NumberValidator();
+		
+		System.out.println(check.isValidateNumberic(""));
 	}
 
 	@Override
 	public boolean canCheck(FieldCheckValidate fieldCheckValidate) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

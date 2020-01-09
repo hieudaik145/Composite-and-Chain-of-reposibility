@@ -1,8 +1,5 @@
 package test.validation.leaf;
 
-import java.util.Map;
-
-import test.common.CoreObject;
 import test.component.ComponentResults;
 import test.component.ComponentRules;
 import test.result.SimpleResult;
@@ -35,15 +32,9 @@ public class GioiTinhValidator implements ComponentRules {
 	}
 
 	@Override
-	public void validateRow(RowCheckValidate rowCheckValidate, CoreObject object) {
+	public boolean canCheck(FieldCheckValidate fieldCheckValidate) {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void validateListRow(Map<CoreObject, RowCheckValidate> maps) {
-		// TODO Auto-generated method stub
-
+		return true;
 	}
 
 }

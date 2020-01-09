@@ -9,7 +9,7 @@ public class TrungTamVanHoaService {
 
 	public List<TrungTamVanHoa> createTrungTamVanHoa(){
 		
-		List<TrungTamVanHoa> list = Arrays.asList(new TrungTamVanHoa(1, "TTVH Thành phố Đà Nẵng", 50), new TrungTamVanHoa(2, "TTVH Quận Hải Châu", 49));
+		List<TrungTamVanHoa> list = Arrays.asList(new TrungTamVanHoa(1, "TTVH Thành phố Đà Nẵng", 51), new TrungTamVanHoa(2, "TTVH Quận Hải Châu", 49));
 		
 		return list;
 	}

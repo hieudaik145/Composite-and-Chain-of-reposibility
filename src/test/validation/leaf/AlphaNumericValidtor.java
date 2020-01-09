@@ -1,8 +1,5 @@
 package test.validation.leaf;
 
-import java.util.Map;
-
-import test.common.CoreObject;
 import test.component.ComponentResults;
 import test.component.ComponentRules;
 import test.result.SimpleResult;
@@ -32,18 +29,10 @@ public class AlphaNumericValidtor implements ComponentRules {
 		return simpleResult;
 	}
 
-
 	@Override
-	public void validateListRow(Map<CoreObject, RowCheckValidate> maps) {
+	public boolean canCheck(FieldCheckValidate fieldCheckValidate) {
 		// TODO Auto-generated method stub
-		
+		return true;
 	}
-
-	@Override
-	public void validateRow(RowCheckValidate rowCheckValidate, CoreObject object) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 }
